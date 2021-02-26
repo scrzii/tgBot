@@ -1,4 +1,7 @@
 import pickle
+import os
+
+from extensions import *
 
 
 class Serializer:
@@ -15,6 +18,9 @@ class Serializer:
     def import_from(self, field: str) -> object:  # Override me
         pass
 
+    def field_exists(self, fields: str) -> bool:  # Override me
+        pass
+
 
 class FileSerializer(Serializer):
     """
@@ -27,16 +33,13 @@ class FileSerializer(Serializer):
         :param file_path:
         """
         super().__init__()
-        if not file_path.endswith("/"):
-            file_path += "/"
-        self.file_path = file_path
+        self.file_path = smet(file_path)
 
     def export_to(self, field: str, value: object):
-        if not field.endswith(".pickle"):
-            field += ".pickle"
-        pickle.dump(data, open(self.file_path + field, "wb"))
+        pickle.dump(data, open(self.file_path + smet(field, ".pickle"), "wb"))
 
     def import_from(self, field: str):
-        if not field.endswith(".pickle"):
-            field += ".pickle"
-        return pickle.load(open(self.file_path + field, "rb"))
+        return pickle.load(open(self.file_path + smet(field, ".pickle"), "rb"))
+
+    def field_exists(self, field: str) -> bool:
+        return os.path.exists(self.file_path + smet(field, ".pickle"))

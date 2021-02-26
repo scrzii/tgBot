@@ -1,4 +1,5 @@
 from tg_api_worker import *
+from message_handler import *
 
 
 class Updater:
@@ -60,6 +61,8 @@ class User:
         self.current_message = current_message  # Last user's message
         self.local_data = local_data if local_data else {}  # Local data for this user in your project
         self.id = source["id"]
+        self.cc_handler = cc_handler if cc_handler else MessageHandler.Callbacks.default  # Current callback handler
+        self.cm_handler = cm_handler if cm_handler else MessageHandler.Messages.default  # Current message handler
         if initializer:
             initializer(self)
 
