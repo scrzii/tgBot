@@ -187,7 +187,7 @@ class API:
 
 
 # Demonstration
-if __name__ == "__main__":
+def main():
     token = "ACCESS_TOKEN"
     tg = API(token)
     offset = 0
@@ -212,3 +212,7 @@ if __name__ == "__main__":
             }
             tg.send_message(**data)
         time.sleep(2)
+
+
+if __name__ == "__main__":
+    main()
