@@ -5,7 +5,7 @@ import json
 
 class Keyboard:
     """
-    Abstract parent class for telegram keyboards realises
+    Abstract parent class for telegram keyboards realizes
     """
     class Button:  # Parent subclass for keyboard buttons
         def to_dict_object(self) -> dict:  # Override me
@@ -120,7 +120,7 @@ class Downloader:
     def download(self, tg_file_path: str, filename: str, local_file_path: str="./"):
         file_url = self.downloading_url + tg_file_path  # URL for this file
         file_data = requests.get(url=file_url).content  # File content for saving
-        if local_file_path[-1] != "/":
+        if not local_file_path.endswith("/"):
             local_file_path += "/"
         file = open(local_file_path + filename, "wb")
         file.write(file_data)  # Writing content to file
