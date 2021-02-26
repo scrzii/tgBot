@@ -105,15 +105,11 @@ class ReplyKeyboard(Keyboard):
         self.keyboard_type = "keyboard"
 
 
-class API:
-    pass
-
-
 class Downloader:
     """
     Class for downloading telegram files
     """
-    def __init__(self, api_object: API):
+    def __init__(self, api_object):
         """
         Initializer of Downloader class
         :param bot_token: access token of your bot or API class object
