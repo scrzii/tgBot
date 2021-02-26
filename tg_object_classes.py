@@ -1,5 +1,5 @@
 from tg_api_worker import *
-from message_handler import *
+from message_handler_class import *
 
 
 class Updater:
@@ -46,7 +46,7 @@ class Updater:
             super().__init__(source)
 
     @staticmethod
-    def auto_distribute(source: dict) -> Updater.Update:
+    def auto_distribute(source: dict) -> Update:
         if "callback_query" in source:
             return Updater.CallbackQuery(source)
         elif "message" in source:
@@ -55,14 +55,15 @@ class Updater:
 
 
 class User:
-    def __init__(self, api: API, source: dict, current_message: str="", local_data=None, initializer: function=None):
+    def __init__(self, api: API, source: dict, message_handler: MessageHandler, current_message: str="",
+                 local_data=None, initializer=None):
         self.api = api
         self.source = source  # Info about user from telegram api request
         self.current_message = current_message  # Last user's message
         self.local_data = local_data if local_data else {}  # Local data for this user in your project
         self.id = source["id"]
-        self.cc_handler = cc_handler if cc_handler else MessageHandler.Callbacks.default  # Current callback handler
-        self.cm_handler = cm_handler if cm_handler else MessageHandler.Messages.default  # Current message handler
+        self.cm_handler = message_handler.Messages  # Current message handler
+        self.cc_handler = message_handler.Callbacks  # Current callback handler
         if initializer:
             initializer(self)
 

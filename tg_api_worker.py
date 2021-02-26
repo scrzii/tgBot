@@ -147,7 +147,6 @@ class API:
             url=self.api_url + method,
             params=request_data).text
         )  # Response deserialization
-        print(response)
         return response
 
     # Next methods is translating telegram methods to class methods

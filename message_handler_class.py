@@ -1,5 +1,12 @@
 from tg_api_worker import *
-from tg_object_classes import *
+
+
+class Updater:
+    class Message:
+        pass
+
+    class CallbackQuery:
+        pass
 
 
 class MessageHandler:
@@ -12,7 +19,7 @@ class MessageHandler:
         Override default and add other methods
         """
         @staticmethod
-        def default(self, user: User, message: Updater.Message):  # Default handler. You should override this
+        def default(user, message):  # Default handler. You should override this
             user.send("Вы написали сообщение")
 
     class Callbacks:
@@ -21,5 +28,5 @@ class MessageHandler:
         Override default and add other methods
         """
         @staticmethod
-        def default(self, user: User, callback: Updater.CallbackQuery):  # Default handler. You should override this
+        def default(user, callback):  # Default handler. You should override this
             user.send("Вы нажали коллбэк-кнопку")
