@@ -2,6 +2,7 @@ import pickle
 import os
 
 from extensions import *
+from tg_object_classes import *
 
 
 class Serializer:
@@ -35,7 +36,7 @@ class FileSerializer(Serializer):
         super().__init__()
         self.file_path = smet(file_path)
 
-    def export_to(self, field: str, value: object):
+    def export_to(self, field: str, data: object):
         pickle.dump(data, open(self.file_path + smet(field, ".pickle"), "wb"))
 
     def import_from(self, field: str):

@@ -11,7 +11,6 @@ class Updater:
             """
             self.source = source
             self.update_id = int(source["update_id"])
-            self.chat_id = int(source["chat"]["id"])
 
         def __getitem__(self, item):
             return self.source[item]
@@ -22,11 +21,11 @@ class Updater:
         """
         def __init__(self, source: dict):
             super().__init__(source)
-            self.message_source = source["message"]
-            self.message_id = self.message_source["message_id"]
+            self.inner_source = source["message"]
+            self.message_id = self.inner_source["message_id"]
             self.text = ""
-            if "text" in self.message_source:
-                self.text = self.message_source["text"]
+            if "text" in self.inner_source:
+                self.text = self.inner_source["text"]
 
     class CallbackQuery(Update):
         """
@@ -34,8 +33,8 @@ class Updater:
         """
         def __init__(self, source: dict):
             super().__init__(source)
-            self.callback_source = source["callback_query"]
-            self.id = callback_source["id"]
+            self.inner_source = source["callback_query"]
+            self.id = inner_source["id"]
 
     class UndefinedUpdate(Update):
         """
@@ -44,6 +43,7 @@ class Updater:
         """
         def __init__(self, source: dict):
             super().__init__(source)
+            self.inner_source = {}
 
     @staticmethod
     def auto_distribute(source: dict) -> Update:
@@ -55,17 +55,16 @@ class Updater:
 
 
 class User:
-    def __init__(self, api: API, source: dict, message_handler: MessageHandler, current_message: str="",
-                 local_data=None, initializer=None):
+    def __init__(self, api: API, source: dict, message_handler: type, current_message: str="",
+                 data=None, new: bool=True):
         self.api = api
         self.source = source  # Info about user from telegram api request
         self.current_message = current_message  # Last user's message
-        self.local_data = local_data if local_data else {}  # Local data for this user in your project
+        self.data = data if data else {}  # Local data for this user in your project
         self.id = source["id"]
-        self.cm_handler = message_handler.Messages  # Current message handler
-        self.cc_handler = message_handler.Callbacks  # Current callback handler
-        if initializer:
-            initializer(self)
+        self.message_handler = message_handler
+        if new:
+            message_handler.new_user(self)
 
     def update_text(self, text):
         self.current_message = text
