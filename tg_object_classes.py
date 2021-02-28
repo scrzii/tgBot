@@ -1,5 +1,5 @@
-from tg_api_worker import *
-from message_handler_class import *
+from tg_api_worker import API, Keyboard
+from message_handler_abs import MessageHandlerAbs
 
 
 class Updater:
@@ -55,16 +55,13 @@ class Updater:
 
 
 class User:
-    def __init__(self, api: API, source: dict, message_handler: type, current_message: str="",
-                 data=None, new: bool=True):
+    def __init__(self, api: API, source: dict, message_handler: type, current_message: str="", data=None):
         self.api = api
         self.source = source  # Info about user from telegram api request
         self.current_message = current_message  # Last user's message
         self.data = data if data else {}  # Local data for this user in your project
         self.id = source["id"]
         self.message_handler = message_handler
-        if new:
-            message_handler.new_user(self)
 
     def update_text(self, text):
         self.current_message = text

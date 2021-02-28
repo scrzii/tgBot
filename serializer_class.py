@@ -1,8 +1,7 @@
 import pickle
 import os
 
-from extensions import *
-from tg_object_classes import *
+from extensions import smet
 
 
 class Serializer:

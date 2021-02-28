@@ -1,5 +1,4 @@
 import requests
-import time
 import json
 
 
@@ -103,6 +102,14 @@ class ReplyKeyboard(Keyboard):
     def __init__(self, button_list: list):
         super().__init__(button_list)
         self.keyboard_type = "keyboard"
+
+
+class RemoveReplyKeyboard(Keyboard):
+    def __init__(self):
+        pass
+
+    def __str__(self):
+        return '{"remove_keyboard": true}'
 
 
 class Downloader:

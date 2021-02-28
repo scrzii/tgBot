@@ -1,9 +1,9 @@
-from serializer_class import *
-
+from serializer_class import Serializer, FileSerializer
+from extensions import smet
 
 class Options:
     def __init__(self, timeout: int=None, check_interval: float=2,
-                 serializer_tool=None, serializer_path: str="../serialized_data/",
+                 serializer_tool: Serializer=None, serializer_path: str="../serialized_data/",
                  new_user_function=None, loop_function=None):
         serializer_path = smet(serializer_path)
         if not serializer_tool:
