@@ -15,7 +15,3 @@ class MessageHandler(MessageHandlerAbs):
     @staticmethod
     def new_user(user: User, bot_obj: TelegramBotCreator):
         pass
-
-
-
-
